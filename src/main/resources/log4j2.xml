@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp" packages="">
+    <Appenders>
+        <File name="MyFile" fileName="logs/app.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Kafka name="Kafka" topic="test">
+            <PatternLayout pattern="%date %message"/>
+            <Property name="bootstrap.servers">localhost:9092</Property>
+        </Kafka>
+        <Async name="Async">
+            <AppenderRef ref="MyFile"/>
+            <AppenderRef ref="Kafka"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <Root level="error">
+            <AppenderRef ref="Async"/>
+        </Root>
+        <Root level="INFO">
+            <AppenderRef ref="Kafka"/>
+        </Root>
+        <Logger name="org.apache.kafka" level="WARN" />
+    </Loggers>
+</Configuration>
